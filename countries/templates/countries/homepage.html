@@ -57,7 +57,7 @@
 	// Layer control to add the scale
 	L.control.scale().addTo(map);
 
-
+	// This function ensures that the selected feature changes color respectively according to the required and selected country
 	function onEachFeature(feature, layer) {
     layer.on('click', function (e) {
     		var feat = feature.properties.cntry_name;
@@ -77,6 +77,8 @@
     			weight: 0.5
     		});
     		};
+
+    		// Call the following function to ensure that another country is generated dynamically once the previous country is selected.
     		generateRandomCountry();
     });
 }
@@ -87,19 +89,28 @@
     onEachFeature: onEachFeature,
     }).addTo(map);
     //console.log(countries_json['features']['properties']['cntry_name'])
+
+    // Create an array of countries to compare with the selected country and fill the array with all the required values
     var country_array = new Array();
     for (feat in Object.keys(countries_json['features'])){
     	country_array.push(countries_json['features'][feat]['properties']['cntry_name'])
     	var country = country_array[Math.floor(Math.random() * country_array.length)];
     	//console.log(countries_json['features'][feat]['properties']['cntry_name']);
     };
+
+    // The generateRandomCountry() function is initially called here when the page is generated to ensure that there is an initial country.
     console.log(country_array.length);
     generateRandomCountry(country_array);
 
+
+    // This function generates a random country from the array created above and removes that country from the array once a country is selected
     function generateRandomCountry(array) {
+    	// Grab the country tag and store it in the variable.
     	var point_to = document.getElementById("point-to");
+    	// code to generate a random country
     	var randomCountry = country_array[Math.floor(Math.random() * country_array.length)];
     	point_to.innerHTML=randomCountry;
+    	// Remove the country from the array to prevent re-generation of the country again
     	country_array.pop(randomCountry);
     	console.log(country_array.length)
     	return country_array;
