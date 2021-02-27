@@ -12,11 +12,17 @@
 	<title>Can you name the countries?</title>
 </head>
 <body>
+	<div id="countries" data-countries="{{ countries_json }}">
 	<div id="name-div">
 		<h1>Point to: </h1>
 	</div>
 <div id="map-div"></div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+	var countries = $('#countries').data('countries');
+	var countries_json = JSON.parse(countries.replace(/'/g, '"'));
+	console.log(typeof(countries_json));
+	console.log(countries_json);
 	bounds = new L.LatLngBounds(new L.LatLng(73.448263, -169.448588), new L.LatLng(-54.676427, 178.580836));
 	var map = L.map('map-div',{
 		minZoom: 2,
@@ -32,6 +38,7 @@
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 	L.control.scale().addTo(map);
+	L.geoJSON(countries_json).addTo(map);
 </script>
 </body>
 </html>
