@@ -14,31 +14,96 @@
 <body>
 	<div id="countries" data-countries="{{ countries_json }}">
 	<div id="name-div">
-		<h1>Point to: </h1>
+		<h4>Point to: </h4>
+		<h5 id="point-to"></h5>
 	</div>
 <div id="map-div"></div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+	// Grab the countries data in string format and convert it to JSON
 	var countries = $('#countries').data('countries');
 	var countries_json = JSON.parse(countries.replace(/'/g, '"'));
+
+	// Confirm that the data has been converted to JSON and print the Object in the console
 	console.log(typeof(countries_json));
 	console.log(countries_json);
+
+	// Generate bounds to ensure that the map is centered to its div, setView and setZoom to default values.
 	bounds = new L.LatLngBounds(new L.LatLng(73.448263, -169.448588), new L.LatLng(-54.676427, 178.580836));
 	var map = L.map('map-div',{
 		minZoom: 2,
 		maxZoom: 3,
 		defaultZoom:3,
 		maxBounds: bounds,
-		maxBoundsViscosity: 0.75
+		maxBoundsViscosity: 0.5
 	})
 	.setView([15,20], 3)
 	.setZoom(2);
 
-	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	// Create a style object to style the map on the first load.
+	var myStyle = {
+    "color": "#0000FF",
+    "weight": 0.5,
+    "opacity": 0.5,
+    "fillColor":"#00FFFF",
+    "fillOpacity": 1
+};
+
+    // Leaflet Basic Code. Note that I have used a label-less tileLayer(Basemap) to ensure that the labels are not displayed(That is the whole point of this app XD!!)
+	L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
 		}).addTo(map);
+
+	// Layer control to add the scale
 	L.control.scale().addTo(map);
-	L.geoJSON(countries_json).addTo(map);
+
+
+	function onEachFeature(feature, layer) {
+    layer.on('click', function (e) {
+    		var feat = feature.properties.cntry_name;
+    		var country = $('#point-to').text();
+    		console.log(feat===country);
+    		if(country===feat){
+    			layer.setStyle({
+    				fillColor: "#00FF00",
+    				fillOpacity: 1,
+    				weight: 0.5
+    			});
+    		}
+    		else{
+    			layer.setStyle({
+    			fillColor: "#FF0000",
+    			fillOpacity: 1,
+    			weight: 0.5
+    		});
+    		};
+    		generateRandomCountry();
+    });
+}
+
+	// Code to add the GeoJSON data to the map
+	L.geoJSON(countries_json, {
+    style: myStyle,
+    onEachFeature: onEachFeature,
+    }).addTo(map);
+    //console.log(countries_json['features']['properties']['cntry_name'])
+    var country_array = new Array();
+    for (feat in Object.keys(countries_json['features'])){
+    	country_array.push(countries_json['features'][feat]['properties']['cntry_name'])
+    	var country = country_array[Math.floor(Math.random() * country_array.length)];
+    	//console.log(countries_json['features'][feat]['properties']['cntry_name']);
+    };
+    console.log(country_array.length);
+    generateRandomCountry(country_array);
+
+    function generateRandomCountry(array) {
+    	var point_to = document.getElementById("point-to");
+    	var randomCountry = country_array[Math.floor(Math.random() * country_array.length)];
+    	point_to.innerHTML=randomCountry;
+    	country_array.pop(randomCountry);
+    	console.log(country_array.length)
+    	return country_array;
+    };
 </script>
 </body>
 </html>

@@ -10,6 +10,5 @@ def homepage_view(request):
           geometry_field='geom',
           fields=('cntry_name','objectid'))
 	countries_json = json.loads(countries)
-	print(type(countries_json))
 	return render(request, 'countries/homepage.html', {'countries_json':countries_json})
 
