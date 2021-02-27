@@ -12,12 +12,26 @@
 	<title>Can you name the countries?</title>
 </head>
 <body>
+	<div id="name-div">
+		<h1>Point to: </h1>
+	</div>
 <div id="map-div"></div>
 <script type="text/javascript">
-	var map = L.map('map-div').setView([0.505, 36], 4);
+	bounds = new L.LatLngBounds(new L.LatLng(73.448263, -169.448588), new L.LatLng(-54.676427, 178.580836));
+	var map = L.map('map-div',{
+		minZoom: 2,
+		maxZoom: 3,
+		defaultZoom:3,
+		maxBounds: bounds,
+		maxBoundsViscosity: 0.75
+	})
+	.setView([15,20], 3)
+	.setZoom(2);
+
 	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
+	L.control.scale().addTo(map);
 </script>
 </body>
 </html>
