@@ -20,11 +20,9 @@
 			<h5 id="point-to"></h5>
 		</div>
 		<div id="map-div"></div>
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-			integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
 		<script type="text/javascript">
 			// Grab the countries data in string format and convert it to JSON
-			var countries = $('#countries').data('countries');
+			var countries = document.querySelector('#countries').dataset.countries;
 			var countries_json = JSON.parse(countries.replace(/'/g, '"'));
 
 			// Confirm that the data has been converted to JSON and print the Object in the console
@@ -64,7 +62,7 @@
 			function onEachFeature(feature, layer) {
 				layer.on('click', function (e) {
 					var feat = feature.properties.cntry_name;
-					var country = $('#point-to').text();
+					var country = document.querySelector('#point-to').textContent;
 					console.log(feat === country);
 					if (country === feat) {
 						layer.setStyle({
