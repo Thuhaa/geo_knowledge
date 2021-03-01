@@ -1,129 +1,131 @@
 <!DOCTYPE html>
 <html>
 {% load static %}
+
 <head>
-	 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
-   <link rel="stylesheet" type="text/css" href="{% static 'countries/css/layout.css' %}">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+		crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+		integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+		crossorigin=""></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'countries/css/layout.css' %}">
 	<title>Can you name the countries?</title>
 </head>
+
 <body>
 	<div id="countries" data-countries="{{ countries_json }}">
-	<div id="name-div">
-		<h4 id="text-to">Point to: </h4>
-		<h5 id="point-to"></h5>
-	</div>
-<div id="map-div"></div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-	// Grab the countries data in string format and convert it to JSON
-	var countries = $('#countries').data('countries');
-	var countries_json = JSON.parse(countries.replace(/'/g, '"'));
+		<div id="name-div">
+			<h4 id="text-to">Point to: </h4>
+			<h5 id="point-to"></h5>
+		</div>
+		<div id="map-div"></div>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+			// Grab the countries data in string format and convert it to JSON
+			var countries = $('#countries').data('countries');
+			var countries_json = JSON.parse(countries.replace(/'/g, '"'));
 
-	// Confirm that the data has been converted to JSON and print the Object in the console
-	console.log(typeof(countries_json));
-	console.log(countries_json);
+			// Confirm that the data has been converted to JSON and print the Object in the console
+			console.log(typeof (countries_json));
+			console.log(countries_json);
 
-	// Generate bounds to ensure that the map is centered to its div, setView and setZoom to default values.
-	bounds = new L.LatLngBounds(new L.LatLng(73.448263, -169.448588), new L.LatLng(-54.676427, 178.580836));
-	var map = L.map('map-div',{
-		minZoom: 2,
-		maxZoom: 3,
-		defaultZoom:3,
-		maxBounds: bounds,
-		maxBoundsViscosity: 0.5
-	})
-	.setView([15,20], 3)
-	.setZoom(2);
+			// Generate bounds to ensure that the map is centered to its div, setView and setZoom to default values.
+			bounds = new L.LatLngBounds(new L.LatLng(73.448263, -169.448588), new L.LatLng(-54.676427, 178.580836));
+			var map = L.map('map-div', {
+				minZoom: 2,
+				maxZoom: 3,
+				defaultZoom: 3,
+				maxBounds: bounds,
+				maxBoundsViscosity: 0.5
+			})
+				.setView([15, 20], 3)
+				.setZoom(2);
 
-	// Create a style object to style the map on the first load.
-	var myStyle = {
-    "color": "#0000FF",
-    "weight": 0.5,
-    "opacity": 0.5,
-    "fillColor":"#00FFFF",
-    "fillOpacity": 1
-};
+			// Create a style object to style the map on the first load.
+			var myStyle = {
+				"color": "#0000FF",
+				"weight": 0.5,
+				"opacity": 0.5,
+				"fillColor": "#00FFFF",
+				"fillOpacity": 1
+			};
 
-    // Leaflet Basic Code. Note that I have used a label-less tileLayer(Basemap) to ensure that the labels are not displayed(That is the whole point of this app XD!!)
-	L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-		}).addTo(map);
+			// Leaflet Basic Code. Note that I have used a label-less tileLayer(Basemap) to ensure that the labels are not displayed(That is the whole point of this app XD!!)
+			L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+			}).addTo(map);
 
-	// Layer control to add the scale
-	L.control.scale().addTo(map);
+			// Layer control to add the scale
+			L.control.scale().addTo(map);
 
-	// This function ensures that the selected feature changes color respectively according to the required and selected country
-	function onEachFeature(feature, layer) {
-    layer.on('click', function (e) {
-    		var feat = feature.properties.cntry_name;
-    		var country = $('#point-to').text();
-    		console.log(feat===country);
-    		if(country===feat){
-    			layer.setStyle({
-    				fillColor: "#00FF00",
-    				fillOpacity: 1,
-    				weight: 0.5
-    			});
-    		}
-    		else{
-    			layer.setStyle({
-    			fillColor: "#FF0000",
-    			fillOpacity: 1,
-    			weight: 0.5
-    		});
-    		};
+			// This function ensures that the selected feature changes color respectively according to the required and selected country
+			function onEachFeature(feature, layer) {
+				layer.on('click', function (e) {
+					var feat = feature.properties.cntry_name;
+					var country = $('#point-to').text();
+					console.log(feat === country);
+					if (country === feat) {
+						layer.setStyle({
+							fillColor: "#00FF00",
+							fillOpacity: 1,
+							weight: 0.5
+						});
+					}
+					else {
+						layer.setStyle({
+							fillColor: "#FF0000",
+							fillOpacity: 1,
+							weight: 0.5
+						});
+					};
 
-    		// Call the following function to ensure that another country is generated dynamically once the previous country is selected.
-    		generateRandomCountry();
-    });
-}
+					// Call the following function to ensure that another country is generated dynamically once the previous country is selected.
+					generateRandomCountry();
+				});
+			}
 
-	// Code to add the GeoJSON data to the map
-	L.geoJSON(countries_json, {
-    style: myStyle,
-    onEachFeature: onEachFeature,
-    }).addTo(map);
-    //console.log(countries_json['features']['properties']['cntry_name'])
+			// Code to add the GeoJSON data to the map
+			L.geoJSON(countries_json, {
+				style: myStyle,
+				onEachFeature: onEachFeature,
+			}).addTo(map);
 
-    // Create an array of countries to compare with the selected country and fill the array with all the required values
-    var country_array = new Array();
-    for (feat in Object.keys(countries_json['features'])){
-    	country_array.push(countries_json['features'][feat]['properties']['cntry_name'])
-    	var country = country_array[Math.floor(Math.random() * country_array.length)];
-    	//console.log(countries_json['features'][feat]['properties']['cntry_name']);
-    };
+			// Create an array of countries to compare with the selected country and fill the array with all the required values
+			var country_array = new Array();
+			for (feat in Object.keys(countries_json['features'])) {
+				country_array.push(countries_json['features'][feat]['properties']['cntry_name']);
+			};
 
-    // The generateRandomCountry() function is initially called here when the page is generated to ensure that there is an initial country.
-    console.log(country_array.length);
-    generateRandomCountry(country_array);
+			// The generateRandomCountry() function is initially called here when the page is generated to ensure that there is an initial country.
+			console.log(country_array.length);
+			generateRandomCountry(country_array);
 
 
-    // This function generates a random country from the array created above and removes that country from the array once a country is selected
-    function generateRandomCountry(array) {
-    	// Grab the country tag and store it in the variable.
-    	var point_to = document.getElementById("point-to");
-    	// code to generate a random country
-    	var randomCountry = country_array[Math.floor(Math.random() * country_array.length)];
-    	point_to.innerHTML=randomCountry;
-    	// Remove the country from the array to prevent re-generation of the country again
-    	var index = country_array.indexOf(randomCountry);
-    	country_array.splice(index, 1);
-    	console.log(country_array.length)
-    	if (country_array.length<1){
-    		text_to.innerHTML = ""
-    		point_to.innerHTML = "Congratulations";
-    		point_to.style.color = "red"
-    		point_to.style.fontSize = "x-large";
-    	}else{
-    	return country_array;
-    };
-};
-var text_to = document.querySelector("#text-to");
-</script>
+			// This function generates a random country from the array created above and removes that country from the array once a country is selected
+			function generateRandomCountry(array) {
+				// Grab the country tag and store it in the variable.
+				var point_to = document.getElementById("point-to");
+				// code to generate a random country
+				var randomCountry = country_array[Math.floor(Math.random() * country_array.length)];
+				point_to.innerHTML = randomCountry;
+				// Remove the country from the array to prevent re-generation of the country again
+				var index = country_array.indexOf(randomCountry);
+				country_array.splice(index, 1);
+				console.log(country_array.length);
+				// Once the array rans out of items, Show a PopUp Over the Map to show the score and disable any more clicking on the map
+				if (country_array.length < 1) {
+					text_to.innerHTML = ""
+					point_to.innerHTML = "Congratulations";
+					point_to.style.color = "red"
+					point_to.style.fontSize = "x-large";
+				} else {
+					return country_array;
+				};
+			};
+			var text_to = document.querySelector("#text-to");
+		</script>
 </body>
+
 </html>
