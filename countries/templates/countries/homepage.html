@@ -14,7 +14,7 @@
 <body>
 	<div id="countries" data-countries="{{ countries_json }}">
 	<div id="name-div">
-		<h4>Point to: </h4>
+		<h4 id="text-to">Point to: </h4>
 		<h5 id="point-to"></h5>
 	</div>
 <div id="map-div"></div>
@@ -111,10 +111,19 @@
     	var randomCountry = country_array[Math.floor(Math.random() * country_array.length)];
     	point_to.innerHTML=randomCountry;
     	// Remove the country from the array to prevent re-generation of the country again
-    	country_array.pop(randomCountry);
+    	var index = country_array.indexOf(randomCountry);
+    	country_array.splice(index, 1);
     	console.log(country_array.length)
+    	if (country_array.length<1){
+    		text_to.innerHTML = ""
+    		point_to.innerHTML = "Congratulations";
+    		point_to.style.color = "red"
+    		point_to.style.fontSize = "x-large";
+    	}else{
     	return country_array;
     };
+};
+var text_to = document.querySelector("#text-to");
 </script>
 </body>
 </html>
