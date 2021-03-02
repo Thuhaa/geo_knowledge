@@ -35,3 +35,8 @@ Note that the full list of requirements is in the requirements.txt file at the b
 
 There you have your application up and running.
 
+## Contribution
+
+Contribution to this application is allowed.
+
+In case of any questions, clarifications, critic or just general suggestions, you can reach out to me on my email address and I will be happy to receive your suggestions, criticism or questions.
