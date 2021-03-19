@@ -10,9 +10,6 @@ django-heroku==0.3.1
 Fiona==1.8.13.post1
 geopandas
 gunicorn==20.0.4
-
-mkl-random==1.1.1
-mkl-service==2.3.0
 munch==2.5.0
 numpy
 pandas
