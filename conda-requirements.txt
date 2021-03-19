@@ -15,7 +15,6 @@ django-heroku==0.3.1
 expat==2.2.10
 fiona==1.8.13.post1
 freexl==1.0.6
-gdal==3.0.2
 geopandas==0.8.1
 geos==3.8.0
 geotiff==1.5.1

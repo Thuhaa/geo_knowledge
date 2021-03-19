@@ -8,7 +8,6 @@ dj-database-url==0.5.0
 Django
 django-heroku==0.3.1
 Fiona==1.8.13.post1
-GDAL==3.0.2
 geopandas
 gunicorn==20.0.4
 mkl-fft==1.2.1
