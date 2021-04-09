@@ -1,16 +1,16 @@
 from pathlib import Path
 from django.contrib.gis.utils import LayerMapping
-from .models import WorldCountries
+from .models import WorldBorder
 
 
-worldcountries_mapping = {
+worldborder_mapping = {
     'objectid': 'OBJECTID',
-    'cntry_name': 'CNTRY_NAME',
+    'name': 'name',
     'geom': 'MULTIPOLYGON',
 }
 
-world_shp = Path(__file__).resolve().parent / 'data' / 'World_Countries' / 'world_countries.shp'
+world_shp = Path(__file__).resolve().parent / 'data' / 'world' / 'world.shp'
 
 def run(verbose=True):
-    lm = LayerMapping(WorldCountries, str(world_shp), worldcountries_mapping, transform=False)
+    lm = LayerMapping(WorldBorder, str(world_shp), worldborder_mapping, transform=False)
     lm.save(strict=True, verbose=verbose)

@@ -1,6 +1,6 @@
 #from django.contrib import admin
 from django.contrib.gis import admin
-from .models import WorldCountries
+from .models import WorldBorder
 
-admin.site.register(WorldCountries, admin.GeoModelAdmin)
+admin.site.register(WorldBorder, admin.GeoModelAdmin)
 # Register your models here.

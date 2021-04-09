@@ -61,7 +61,7 @@
 			// This function ensures that the selected feature changes color respectively according to the required and selected country
 			function onEachFeature(feature, layer) {
 				layer.on('click', function (e) {
-					var feat = feature.properties.cntry_name;
+					var feat = feature.properties.name;
 					var country = document.querySelector('#point-to').textContent;
 					console.log(feat === country);
 					if (country === feat) {
@@ -93,7 +93,7 @@
 			// Create an array of countries to compare with the selected country and fill the array with all the required values
 			var country_array = new Array();
 			for (feat in Object.keys(countries_json['features'])) {
-				country_array.push(countries_json['features'][feat]['properties']['cntry_name']);
+				country_array.push(countries_json['features'][feat]['properties']['name']);
 			};
 
 			// The generateRandomCountry() function is initially called here when the page is generated to ensure that there is an initial country.
