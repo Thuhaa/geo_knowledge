@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import WorldBorder
+from .models import WorldBorders
 from django.core.serializers import serialize
 import json
 
@@ -13,9 +13,9 @@ def homepage_view(request):
 	'''
 
 	# Grab the countries data and serialize
-	countries = serialize('geojson', WorldBorder.objects.all(),
+	countries = serialize('geojson', WorldBorders.objects.all(),
           geometry_field='geom',
-          fields=('objectid','name'))
+          fields=('objectid','cntry_name'))
 
 	# Convert the countries data to a python dict and pass it in the context variable
 	countries_json = json.loads(countries)
