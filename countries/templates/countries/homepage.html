@@ -15,11 +15,13 @@
 
 <body>
 	<div id="countries" data-countries="{{ countries_json }}">
+		<div id="b-div">
 		<div id="name-div">
 			<h4 id="text-to">Point to: </h4>
 			<h5 id="point-to"></h5>
 		</div>
 		<div id="map-div"></div>
+	</div>
 		<script type="text/javascript">
 			// Grab the countries data in string format and convert it to JSON
 			var countries = document.querySelector('#countries').dataset.countries;
@@ -114,10 +116,12 @@
 				console.log(country_array.length);
 				// Once the array rans out of items, Show a PopUp Over the Map to show the score and disable any more clicking on the map
 				if (country_array.length < 1) {
-					text_to.innerHTML = ""
+					text_to.innerHTML = "";
 					point_to.innerHTML = "Congratulations";
-					point_to.style.color = "red"
+					point_to.style.color = "red";
 					point_to.style.fontSize = "x-large";
+					var map_div = document.getElementById("map-div");
+					map_div.style.static = "yes";
 				} else {
 					return country_array;
 				};
