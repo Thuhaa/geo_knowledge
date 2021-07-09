@@ -66,7 +66,9 @@
 					var feat = feature.properties.cntry_name;
 					var country = document.querySelector('#point-to').textContent;
 					console.log(feat === country);
+					console.log(typeof(layer))
 					if (country === feat) {
+						console.log("YOU ARE RIGHT: ", layer)
 						layer.setStyle({
 							fillColor: "#00FF00",
 							fillOpacity: 1,
@@ -74,11 +76,29 @@
 						});
 					}
 					else {
-						layer.setStyle({
-							fillColor: "#FF0000",
-							fillOpacity: 1,
-							weight: 0.5
-						});
+						var right_l = L.geoJson(countries_json, {filter: rightCountryFilter});
+						function rightCountryFilter(feature) {
+							if (feature.properties.cntry_name === country)
+								return true;
+						}
+						// Set this style on the right country NOT on the clicked country
+						console.log("RIGHT LAYER TYPE: ",right_l);
+						var id_1 = right_l._leaflet_id;
+						var id = id_1-1;
+						console.log("ID",id);
+
+						var newStyle = {
+							color:"FF0000",
+							fillColor:"FF0000",
+							fillOpacity:1,
+							weight:0.5
+						};
+						right_l["_layers"][id]["options"].color="FF0000";
+						right_l["_layers"][id]["options"].fillOpacity=1;
+						right_l["_layers"][id]["options"].fillColor="FF0000";
+						right_l["_layers"][id]["options"].weight=0.5;
+						right_l["_layers"][id]["options"].style = newStyle;
+						right_l.addTo(map);
 					};
 
 					// Call the following function to ensure that another country is generated dynamically once the previous country is selected.
