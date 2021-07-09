@@ -30,7 +30,7 @@ Note that the full list of requirements is in the requirements.txt file at the b
         $ conda install --file requirements.txt
 * To run the application, in your terminal, ensure that you are at the root directory of the application and then run:
 
-        $ python manage.py 
+        $ python manage.py runserver
         
 
 There you have your application up and running.
